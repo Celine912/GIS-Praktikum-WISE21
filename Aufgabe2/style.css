@@ -1,0 +1,148 @@
+body{
+    background-color: blanchedalmond; 
+    font: Courier;
+    font-family:'Zen Antique', serif;
+    font-size: 95%;}
+
+[href]{
+
+    background: blanchedalmond;
+    color: rgb(218, 181, 136);}
+
+#zumAnfang {
+    color: sienna;
+    position: relative;
+    display: right;} 
+
+div{
+    position: static;
+    border: 3px solid saddlebrown;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-image: radial-gradient(
+       circle closest-side at center,
+       bisque,
+       saddlebrown,
+       rgb(199, 184, 162));} 
+
+li:first-child{
+    color: sienna;}
+
+li:last-child{
+    color: saddlebrown;}
+
+li:nth-child(3){
+    color: brown;}
+
+li:nth-of-type(1n){
+    background: bisque;
+    padding: 2px;}
+
+nav li:hover{
+    color: black;
+    font-size: 1.2em;
+    padding: 10px;
+    transition: background-color 2s, padding 2s ease;}
+
+li::marker{
+    content: "°";}
+
+div li::first-letter {
+    color: white;
+    background-color: sienna;
+    border-radius: 3px;
+    box-shadow: 4px 4px 0 antiquewhite;
+    font-size: 100%;
+    padding: 3px 1px;
+    margin-right: 5px;
+    float: left;}
+
+@keyframes pulse {
+    20% {
+        padding: 30px;
+        background-color: sienna;}
+}
+img{
+    float: inline;
+    border: 1px solid antiquewhite;
+    width: fit-content;
+    background-color: rgb(214, 176, 127);
+    padding: 20px;
+    animation: pulse 3s;
+    animation-iteration-count: unset;}
+
+iframe{
+    float: inline;
+    border: 1px solid rgb(212, 181, 135);
+    width: fit-content;
+    background-color: black;
+    padding: 20px;
+    width: 560px;}
+
+p {
+    border: 1px solid peru;
+    width: 1500px;
+    background-color: saddlebrown;
+    padding: 1px;}
+
+a{
+    font: 14px Courier;
+    text-decoration: sienna;
+    color: rgb(48, 23, 23);
+    padding: 0px 5 px 0 px 5px;
+    border-right: 2px solid saddlebrown;}
+
+@media screen and (max-width: 64em) {
+    body{ font-size: 90%;}
+}
+
+@media screen and (max-width: 50em) {
+    body{ font-size: 75%;}
+}
+
+@media screen and (max-width: 30em) {
+    body{ font-size: 50%;}
+}
+
+.Startseite{
+    height: 30 px;
+    background: blanchedalmond;
+    padding-top: 7px solid;
+    padding-left: 5px;
+    margin-top: 20px;
+    box-shadow: 4px 6px saddlebrown;
+    overflow: hidden;}
+
+.Eventseite{
+    height: 30 px;
+    background: blanchedalmond;
+    padding-top: 7px solid;
+    padding-left: 5px;
+    margin-top: 20px;
+    box-shadow: 4px 6px sienna;
+    overflow: hidden;}
+
+h1{
+    position: relative;
+    left: 1%;
+    right: 1%;
+    top: 1vh;
+    height: 50px;
+    background: burlywood;
+    color: black;
+    padding: 60px;
+    width: 1370px;}
+
+h2{
+    margin-bottom: 25px;
+    background: burlywood;
+    padding: 20px;}
+
+h4{
+    color: black;
+    border: 2px;
+    padding-left: 0px;
+    margin: 10px;}
+
+
+   
