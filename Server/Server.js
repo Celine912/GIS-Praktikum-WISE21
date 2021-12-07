@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const http = require("http");
 var Server;
 (function (Server) {
-    const hostname = "127.0.0.1"; //localhost
+    const hostname = "127.0.0.1";
     const port = 3000;
     const server = http.createServer((request, response) => {
         response.statusCode = 200;
@@ -12,12 +12,12 @@ var Server;
         let url = new URL(request.url || "", `http://${request.headers.host}`);
         switch (url.pathname) {
             case "/":
-                response.write("Hello World");
+                response.write("Server erreichbar");
                 break;
-            case "/greetings":
-                let name = url.searchParams.get("name");
+            case "/convertDate":
+                let convertdate = url.searchParams.get("day");
                 console.log(name);
-                response.write("Hallo" + name + ", schön dich zu sehen");
+                response.write("Day: " + "," + convertDate + "Month: " + convertDate + "," + "Year: " + convertDate);
                 break;
             default:
                 response.statusCode = 404;
@@ -25,7 +25,7 @@ var Server;
         response.end();
     });
     server.listen(port, hostname, () => {
-        console.log(`Server running at http://${hostname}:${port}}`);
+        console.log(`Server running at http://${hostname}:${port}`);
     });
 })(Server || (Server = {}));
-//# sourceMappingURL=Server.js.map
+//# sourceMappingURL=server.js.map

@@ -16,8 +16,6 @@ namespace Eventseite {
 
 
   const inputFeld: HTMLInputElement = <HTMLInputElement>document.getElementById("input-Element");
-  const loadButton: HTMLElement = <HTMLButtonElement>document.getElementById("load-button");
-  const saveButton: HTMLElement = <HTMLButtonElement>document.getElementById("save-button");
   const display: HTMLDivElement = <HTMLDivElement>document.getElementById("display");
 
   const interpretInput: HTMLInputElement = <HTMLInputElement>document.getElementById("interpret");
@@ -28,10 +26,31 @@ namespace Eventseite {
 
   let elementID: number = 0;
 
-  loadButton.addEventListener("click", loadButtonHandler);
-  saveButton.addEventListener("click", saveButtonHandler);
+  
   entereventButton.addEventListener("click", enterEvent);
-  eventliste.addEventListener("click", enterEvent);
+
+  if (localStorage.length > 0) {
+    load();
+  }
+
+  console.log("Test ausführen");
+
+  function load(): void {
+    let index: number = 1;
+    for (let i: number = 1; i < localStorage.length; i++) {
+
+        while (localStorage.getItem(index.toString()) === null) {
+        index++;
+        }
+
+        let interpret: string = (JSON.parse(localStorage.getItem(i.toString()))).interpret;
+        let price: number = (JSON.parse(localStorage.getItem(i.toString()))).price;
+        let datetime: Date = (JSON.parse(localStorage.getItem(i.toString()))).datetime;
+        createEvent(interpret, price, datetime);
+
+        index++;
+    }
+  }
 
 
   function createEvent(interpret: string, price: number, datetime: Date): void {
@@ -82,47 +101,5 @@ namespace Eventseite {
       let tr: HTMLElement = document.getElementById("delete" + eventID);
       tr.remove();
       localStorage.removeItem(eventID.toString());
-  }
-
-  function saveButtonHandler(): void {
-      console.log("Save Button clicked");
-      console.log("aktuelle Input: " + inputFeld.value);
-      localStorage.setItem("gis_praktikum-input", inputFeld.value);
-  }
-
-  function loadButtonHandler(): void {
-      console.log("Load Button clicked");
-      let valueFromLocalStorage: string = localStorage.getItem("gis_praktikum_input");
-      console.log("aktueller Wert im Local Storage: " + valueFromLocalStorage);
-      display.textContent = valueFromLocalStorage;
-  }
-
-
-  if (localStorage.length > 0) {
-    load();
-}
-
-  console.log("Test ausführen");
-
-  function load(): void {
-    let index: number = 0;
-    for (let i: number = 0; i < localStorage.length; i++) {
-
-        while (localStorage.getItem(index.toString()) === null) {
-
-}
-
-        let interpret: string = interpretInput.value;
-        let price: number = parseInt(priceInput.value);
-        let datetime: Date = new Date(datetimeInput.value);
-
-        interpret = (JSON.parse(localStorage.getItem(i.toString()))).interpret;
-        price = (JSON.parse(localStorage.getItem(i.toString()))).price;
-        datetime = (JSON.parse(localStorage.getItem(i.toString()))).datetime;
-
-        index++;
-
-        createEvent(interpret, price, datetime);
-    }
   }
 }
