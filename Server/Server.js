@@ -1,31 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const http = require("http");
-var Server;
-(function (Server) {
+var CelineServer;
+(function (CelineServer) {
     const hostname = "127.0.0.1";
-    const port = 3000;
+    const port = 3010;
     const server = http.createServer((request, response) => {
         response.statusCode = 200;
         response.setHeader("Content-Type", "text/plain");
         response.setHeader("Access-Control-Allow-Origin", "*");
         let url = new URL(request.url || "", `http://${request.headers.host}`);
-        switch (url.pathname) {
-            case "/":
-                response.write("Server erreichbar");
-                break;
-            case "/convertDate":
-                let convertdate = url.searchParams.get("day");
-                console.log(name);
-                response.write("Day: " + "," + convertDate + "Month: " + convertDate + "," + "Year: " + convertDate);
-                break;
-            default:
-                response.statusCode = 404;
+        if (url.pathname === "/") {
+            response.write("Server erreichbar");
+        }
+        else if (request.method === "GET") {
+            let date = new Date(JSON.parse(url.searchParams.get("b")));
+            response.write("Day: " + date.getDay() + "," + "Month:" + date.getMonth() + "," + "Year:" + date.getFullYear());
+        }
+        else {
+            response.statusCode = 404;
         }
         response.end();
     });
     server.listen(port, hostname, () => {
         console.log(`Server running at http://${hostname}:${port}`);
     });
-})(Server || (Server = {}));
+})(CelineServer || (CelineServer = {}));
 //# sourceMappingURL=server.js.map

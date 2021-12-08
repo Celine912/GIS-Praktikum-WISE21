@@ -1,9 +1,9 @@
 import * as http from "http";
 
-namespace Server {
+namespace CelineServer {
 
   const hostname: string = "127.0.0.1"; 
-  const port: number = 3000; 
+  const port: number = 3010; 
 
   const server: http.Server = http.createServer(
     (request: http.IncomingMessage, response: http.ServerResponse) => {
@@ -16,20 +16,17 @@ namespace Server {
       response.setHeader("Access-Control-Allow-Origin", "*"); 
     
 
-      let url: URL = new URL(request.url || "",`http://${request.headers.host}`); 
+      let url: URL = new URL(request.url || "", `http://${request.headers.host}`); 
 
-      switch (url.pathname) {
-        case "/": 
-          response.write("Server erreichbar");
-          break;
-        case "/convertDate": 
-          let convertdate: string = url.searchParams.get("day"); 
-          console.log(name); 
-          response.write("Day: " + "," + convertDate + "Month: " + convertDate + "," + "Year: " + convertDate); 
-          break;
-        default:
-          response.statusCode = 404; 
-      }
+      if (url.pathname === "/") {
+        response.write("Server erreichbar");
+    }
+      else if (request.method === "GET") {
+    let date: Date = new Date(JSON.parse(url.searchParams.get("b")))
+    response.write("Day: " + date.getDay() + "," + "Month:" + date.getMonth() + "," + "Year:" +  date.getFullYear());
+    } else {
+        response.statusCode = 404;
+    }
       response.end(); 
     }
   );
