@@ -12,6 +12,12 @@ namespace Eventseite {
       }
   }
 
+
+  const inputFeld: HTMLInputElement = <HTMLInputElement>document.getElementById("input-element");
+  const saveButton: HTMLElement = <HTMLButtonElement>document.getElementById("save-button");
+  const loadButton: HTMLElement = <HTMLButtonElement>document.getElementById("load-button");
+  const display: HTMLDivElement = <HTMLDivElement>document.getElementById("display");
+
   const interpretInput: HTMLInputElement = <HTMLInputElement>document.getElementById("interpret");
   const datetimeInput: HTMLInputElement = <HTMLInputElement>document.getElementById("datetime");
   const priceInput: HTMLInputElement = <HTMLInputElement>document.getElementById("price");
@@ -20,6 +26,8 @@ namespace Eventseite {
 
   let elementID: number = 0;
 
+  saveButton.addEventListener("click", saveButtonHandler);
+  loadButton.addEventListener("click", loadButtonHandler);
   entereventButton.addEventListener("click", enterEvent);
 
   if (localStorage.length > 0) {
@@ -29,27 +37,28 @@ namespace Eventseite {
   console.log("Test");
 
   function load(): void {
-      let index: number = 0;
-      
+      let key: number = 0;
       for (let i: number = 0; i < localStorage.length; i++) {
 
-          while (localStorage.getItem(index.toString()) === null) {
-              index++;
+          let interpret: string;
+          let price: number;
+          let date: Date;
+
+          while (localStorage.getItem(key.toString()) === null) {
+              key++;
           }
 
-          let interpret: string = interpretInput.value;
-          let price: number = parseInt(priceInput.value);
-          let datetime: Date = new Date(datetimeInput.value);
+          interpret = (JSON.parse(localStorage.getItem(key.toString()))).interpret;
+          price = (JSON.parse(localStorage.getItem(key.toString()))).price;        
+          date = new Date((JSON.parse(localStorage.getItem(key.toString()))).date);
 
-          interpret = (JSON.parse(localStorage.getItem(index.toString()))).interpret;
-          price = (JSON.parse(localStorage.getItem(index.toString()))).price;
-          datetime = (JSON.parse(localStorage.getItem(index.toString()))).datetime;
+          localStorage.removeItem(key.toString());
+          localStorage.setItem(i.toString(), JSON.stringify(new TodoElement(interpret, price, date)));
 
-          index++;
-          createEvent(interpret, price, datetime);
+          createEvent(interpret, price, date);
+          key++;
       }
   }
-  
 
   function enterEvent(): void {
       let interpret: string = interpretInput.value;
@@ -57,12 +66,11 @@ namespace Eventseite {
       let datetime: Date = new Date(datetimeInput.value);
       console.log(interpret + "\n" + priceInput + "\n" + datetime);
 
-      createEvent(interpret, price, datetime);
-
       let todoElement: TodoElement = new TodoElement(interpret, price, datetime);
       let json: string = JSON.stringify(todoElement);
       localStorage.setItem(elementID.toString(), json);
 
+      createEvent(interpret, price, datetime);
   }
 
   function createEvent(interpret: string, price: number, datetime: Date): void {
@@ -77,7 +85,7 @@ namespace Eventseite {
       löschenButton.id = elementID.toString();
 
       interpretElement.innerText = interpret;
-      priceElement.innerText = price + "€";
+      priceElement.innerText = price + "";
       datetimeElement.innerText = datetime + "";
       löschenButton.innerHTML = "löschen";
 
@@ -96,8 +104,22 @@ namespace Eventseite {
   function eventLöschen(eventLöschen: Event): void {
 
       let eventID: string = (<HTMLElement>eventLöschen.target).id;
+      console.log(eventID);
       let tr: HTMLElement = document.getElementById("löschen" + eventID);
-      tr.remove();
       localStorage.removeItem(eventID.toString());
+      tr.remove();
+  }
+
+  function saveButtonHandler(): void {
+      console.log("Save Button clicked");
+      console.log("aktuelle Input: " + inputFeld.value);
+      localStorage.setItem("Abgabe4", inputFeld.value);
+  }
+
+  function loadButtonHandler(): void {
+      console.log("Load Button clicked");
+      let valueFromLocalStorage: string = localStorage.getItem("Abgabe4");
+      console.log("aktueller Wert im Local Storage: " + valueFromLocalStorage);
+      display.textContent = valueFromLocalStorage;
   }
 }
