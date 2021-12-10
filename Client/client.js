@@ -7,6 +7,7 @@ var Client;
     const myForm = document.getElementById("myform");
     const sendButton = document.getElementById("send-button");
     const dateInput = document.getElementById("date");
+    const addElement = document.getElementById("add");
     sendButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         request();
@@ -17,6 +18,7 @@ var Client;
         let response = await fetch(urlWithQuery);
         let responseText = await response.text();
         console.log(responseText);
+        addElement.innerText = responseText;
     }
 })(Client || (Client = {}));
 //# sourceMappingURL=client.js.map

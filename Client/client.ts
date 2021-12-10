@@ -7,6 +7,7 @@ namespace Client {
     const myForm: HTMLFormElement = <HTMLFormElement>document.getElementById("myform"); 
     const sendButton: HTMLButtonElement = <HTMLButtonElement>document.getElementById("send-button"); 
     const dateInput: HTMLInputElement = <HTMLInputElement>document.getElementById("date"); 
+    const addElement: HTMLElement = document.getElementById("add");
 
     sendButton.addEventListener("click", function(evt: Event) {
         evt.preventDefault(); 
@@ -24,5 +25,6 @@ namespace Client {
         let response: Response = await fetch(urlWithQuery); 
         let responseText: string = await response.text(); 
         console.log(responseText); 
+        addElement.innerText = responseText;
     }
 }
