@@ -11,31 +11,39 @@ var Eventseite;
             this.date = date;
         }
     }
-    /*const inputFeld: HTMLInputElement = <HTMLInputElement>document.getElementById("input-Element");
-    const display: HTMLDivElement = <HTMLDivElement>document.getElementById("display");
-    */
+    const inputFeld = document.getElementById("input-element");
+    const saveButton = document.getElementById("save-button");
+    const loadButton = document.getElementById("load-button");
+    const display = document.getElementById("display");
     const interpretInput = document.getElementById("interpret");
-    const priceInput = document.getElementById("price");
     const datetimeInput = document.getElementById("datetime");
+    const priceInput = document.getElementById("price");
     const entereventButton = document.getElementById("enterevent");
-    const eventliste = document.getElementById("eventliste");
+    const eventtabelle = document.getElementById("eventtabelle");
     let elementID = 0;
+    saveButton.addEventListener("click", saveButtonHandler);
+    loadButton.addEventListener("click", loadButtonHandler);
     entereventButton.addEventListener("click", enterEvent);
     if (localStorage.length > 0) {
         load();
     }
-    console.log("Test ausführen");
+    console.log("Test");
     function load() {
-        let index = 1;
-        for (let i = 1; i < localStorage.length; i++) {
-            while (localStorage.getItem(index.toString()) === null) {
-                index++;
+        let key = 0;
+        for (let i = 0; i < localStorage.length; i++) {
+            let interpret;
+            let price;
+            let date;
+            while (localStorage.getItem(key.toString()) === null) {
+                key++;
             }
-            let interpret = (JSON.parse(localStorage.getItem(index.toString()))).interpret;
-            let price = (JSON.parse(localStorage.getItem(index.toString()))).price;
-            let datetime = (JSON.parse(localStorage.getItem(index.toString()))).datetime;
-            createEvent(interpret, price, datetime);
-            index++;
+            interpret = (JSON.parse(localStorage.getItem(key.toString()))).interpret;
+            price = (JSON.parse(localStorage.getItem(key.toString()))).price;
+            date = new Date((JSON.parse(localStorage.getItem(key.toString()))).date);
+            localStorage.removeItem(key.toString());
+            localStorage.setItem(i.toString(), JSON.stringify(new TodoElement(interpret, price, date)));
+            createEvent(interpret, price, date);
+            key++;
         }
     }
     function enterEvent() {
@@ -43,7 +51,7 @@ var Eventseite;
         let price = parseInt(priceInput.value);
         let datetime = new Date(datetimeInput.value);
         console.log(interpret + "\n" + priceInput + "\n" + datetime);
-        let todoElement = new TodoElement(interpret, datetime, price);
+        let todoElement = new TodoElement(interpret, price, datetime);
         let json = JSON.stringify(todoElement);
         localStorage.setItem(elementID.toString(), json);
         createEvent(interpret, price, datetime);
@@ -53,28 +61,40 @@ var Eventseite;
         let interpretElement = document.createElement("td");
         let priceElement = document.createElement("td");
         let datetimeElement = document.createElement("td");
-        let deleteElement = document.createElement("td");
-        let deleteButton = document.createElement("button");
-        tr.id = "delete" + elementID.toString();
-        deleteButton.id = elementID.toString();
+        let löschenElement = document.createElement("td");
+        let löschenButton = document.createElement("button");
+        tr.id = "löschen" + elementID.toString();
+        löschenButton.id = elementID.toString();
         interpretElement.innerText = interpret;
         priceElement.innerText = price + "";
         datetimeElement.innerText = datetime + "";
-        deleteButton.innerHTML = "delete";
-        deleteElement.append(deleteButton);
-        deleteElement.addEventListener("click", deleteevent);
+        löschenButton.innerHTML = "löschen";
+        löschenElement.append(löschenButton);
+        löschenElement.addEventListener("click", eventLöschen);
         tr.appendChild(interpretElement);
         tr.appendChild(priceElement);
         tr.appendChild(datetimeElement);
-        tr.appendChild(deleteElement);
-        eventliste.appendChild(tr);
+        tr.appendChild(löschenElement);
+        eventtabelle.appendChild(tr);
         elementID++;
     }
-    function deleteevent(deleteevent) {
-        let eventID = deleteevent.target.id;
-        let tr = document.getElementById("delete" + eventID);
-        tr.remove();
+    function eventLöschen(eventLöschen) {
+        let eventID = eventLöschen.target.id;
+        console.log(eventID);
+        let tr = document.getElementById("löschen" + eventID);
         localStorage.removeItem(eventID.toString());
+        tr.remove();
+    }
+    function saveButtonHandler() {
+        console.log("Save Button clicked");
+        console.log("aktuelle Input: " + inputFeld.value);
+        localStorage.setItem("Abgabe4", inputFeld.value);
+    }
+    function loadButtonHandler() {
+        console.log("Load Button clicked");
+        let valueFromLocalStorage = localStorage.getItem("Abgabe4");
+        console.log("aktueller Wert im Local Storage: " + valueFromLocalStorage);
+        display.textContent = valueFromLocalStorage;
     }
 })(Eventseite || (Eventseite = {}));
 //# sourceMappingURL=script.js.map
