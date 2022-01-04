@@ -1,3 +1,5 @@
+import * as mongo from "mongodb";
+
 namespace Eventseite {
 
   class TodoElement {
