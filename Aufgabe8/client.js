@@ -8,16 +8,6 @@ var CelinesAbgabe;
     const eventtabelle = document.getElementById("eventtabelle");
     entereventButton.addEventListener("click", enterEvent);
     load();
-    async function load() {
-        let events;
-        let response = await fetch("http://localhost:3010" + "/Enterevent", {
-            method: "get"
-        });
-        events = JSON.parse(await response.text());
-        for (let i = 0; i < events.length; i++) {
-            createEvent(events[i].interpret, events[i].price, events[i].date);
-        }
-    }
     async function enterEvent() {
         let interpret = interpretInput.value;
         let price = parseInt(priceInput.value);
@@ -31,12 +21,6 @@ var CelinesAbgabe;
         await versenden(event);
         createEvent(interpret, price, date);
     }
-    async function versenden(event) {
-        await fetch("http://localhost:3010/Enterevent", {
-            method: "post",
-            body: JSON.stringify(event),
-        });
-    }
     function createEvent(interpret, price, datetime) {
         let tr = document.createElement("tr");
         let interpretElement = document.createElement("td");
@@ -49,6 +33,22 @@ var CelinesAbgabe;
         tr.appendChild(priceElement);
         tr.appendChild(datetimeElement);
         eventtabelle.appendChild(tr);
+    }
+    async function versenden(event) {
+        await fetch("http://localhost:3200/concertEvents", {
+            method: "post",
+            body: JSON.stringify(event)
+        });
+    }
+    async function load() {
+        let events;
+        let response = await fetch("http://localhost:3200/concertEvents", {
+            method: "GET"
+        });
+        events = JSON.parse(await response.text());
+        for (let i = 0; i < events.length; i++) {
+            createEvent(events[i].interpret, events[i].price, events[i].date);
+        }
     }
 })(CelinesAbgabe || (CelinesAbgabe = {}));
 //# sourceMappingURL=client.js.map

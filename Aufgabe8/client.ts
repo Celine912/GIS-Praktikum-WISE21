@@ -19,21 +19,7 @@ namespace CelinesAbgabe {
     load();
 
 
-    async function load(): Promise<void> {
-
-        let events: TodoElement[];
-        
-        let response: Response = await fetch("http://localhost:3010" + "/Enterevent", {
-            method: "get"
-        });
-        events = JSON.parse(await response.text());
-
-        
-        for (let i: number = 0; i < events.length; i++) {
-            createEvent(events[i].interpret, events[i].price, events[i].date);
-        }
-
-    }
+ 
 
     async function enterEvent(): Promise<void> {
 
@@ -53,16 +39,7 @@ namespace CelinesAbgabe {
         createEvent(interpret, price, date);
     }
 
-    async function versenden(event: TodoElement): Promise<void> {
-        
-        await fetch("http://localhost:3010/Enterevent", {
-            method: "post",
-             
-            body: JSON.stringify(event),
-        });
-
-    }
-
+    
     function createEvent(interpret: string, price: number, datetime: Date): void {
         let tr: HTMLElement = document.createElement("tr");
         let interpretElement: HTMLElement = document.createElement("td");
@@ -73,7 +50,6 @@ namespace CelinesAbgabe {
         priceElement.innerText = price + "";
         datetimeElement.innerText = datetime + "";
         
-
         tr.appendChild(interpretElement);
         tr.appendChild(priceElement);
         tr.appendChild(datetimeElement);
@@ -81,4 +57,29 @@ namespace CelinesAbgabe {
 
         eventtabelle.appendChild(tr);
     }
+
+    async function versenden(event: TodoElement): Promise<void> {
+        
+        await fetch("http://localhost:3200/concertEvents", {
+            method: "post",
+            
+            body: JSON.stringify(event)
+        });
+
+    }   
+    async function load(): Promise<void> {
+
+        let events: TodoElement[];
+        
+        let response: Response = await fetch("http://localhost:3200/concertEvents", {
+            method: "GET"
+        });
+        events = JSON.parse(await response.text());
+
+        for (let i: number = 0; i < events.length; i++) {
+            createEvent(events[i].interpret, events[i].price, events[i].date);
+        }
+
+    }
+
 }
